@@ -1,3 +1,4 @@
+# search for other packagegroups in components/yocto/layers/core/meta/recipes-core/packagegroups
 DESCRIPTION = "RETIS Lab test application packagegroup"
 SUMMARY = "RETIS Lab packagegroup - tools/testapps"
 
