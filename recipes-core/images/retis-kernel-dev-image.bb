@@ -8,4 +8,8 @@ require retis-dev-image.bb
 IMAGE_INSTALL_append = " \
     kernel-dev  \
     kernel-devsrc \
+    cyclitest \
+    lmbench \
+    stress-ng \
+    sysbench \    
 "

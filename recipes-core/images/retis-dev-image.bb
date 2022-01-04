@@ -26,10 +26,11 @@ IMAGE_INSTALL_append = " \
     openssh \
     gzip \
     wget \
-    cyclitest \
+    dtc \
+    coreutils \
 "
 # might be usefull
-# kernel-dev kernel-devsrc
+# kernel-dev kernel-devsrc kernel-modules
 
 # this allows to install RPM packages saved in tmp/deploy/rpm using
 # $ dnf install package.rpm
