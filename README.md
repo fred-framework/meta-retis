@@ -1,5 +1,6 @@
 # meta-retis
-Yocto Image from Real-Time Systems Laboratory (ReTiS Lab), Scuola Superiore Sant'Anna (SSSA), Pisa
+
+Yocto Image from [Real-Time Systems Laboratory (ReTiS Lab)](https://retis.santannapisa.it/), [Scuola Superiore Sant'Anna (SSSA)](https://www.santannapisa.it/), Pisa, Italy.
 
 ## Creating a PetaLinux Project
 
@@ -7,7 +8,7 @@ Create a PetaLinux project using the following command:
 ```
 petalinux-create -t project -s <path to the xilinx-zcu102-v2020.2-final.bsp>
 ```
-Reconfigure the project with edt_zcu102_wrapper.xsa:
+Reconfigure the project with the hardware design (.xsa or .bsp):
 ```
 cd xilinx-zcu102-2020.2
 petalinux-config --get-hw-description=<path containing edt_zcu102_wrapper.xsa>

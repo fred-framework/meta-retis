@@ -4,6 +4,7 @@ LICENSE = "MIT"
 
 inherit core-image
 require retis-image.bb
+require petalinux-image-common.inc
 
 #
 # Extra image configuration defaults
@@ -138,6 +139,7 @@ PACKAGE_FEED_URIS = "http://10.30.3.59:8000"
 
 # features to be included
 IMAGE_FEATURES += "ssh-server-openssh tools-debug debug-tweaks"
+IMAGE_FEATURES_remove += "ssh-server-dropbear"
 
 #CORE_IMAGE_EXTRA_INSTALL += "libgomp libgomp-dev libgomp-staticdev"
 
@@ -154,3 +156,6 @@ IMAGE_FEATURES += "ssh-server-openssh tools-debug debug-tweaks"
 
 # set the free space in the image. If not set, it will be minimal, i.e. few hundreds of MBytes
 #IMAGE_ROOTFS_EXTRA_SPACE_append = " + 8000000"
+
+## check other petalinux packagegroups that can be helpfull in 
+# ./components/yocto/layers/meta-petalinux/recipes-core/images/petalinux-image-full.inc
