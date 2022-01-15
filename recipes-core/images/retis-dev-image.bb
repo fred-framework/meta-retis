@@ -4,7 +4,8 @@ LICENSE = "MIT"
 
 inherit core-image
 require retis-image.bb
-require petalinux-image-common.inc
+require ./recipes-core/images/petalinux-image-minimal.bb
+#require ./recipes-core/images/petalinux-image-full.bb
 
 #
 # Extra image configuration defaults
