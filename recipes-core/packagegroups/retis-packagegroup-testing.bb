@@ -13,5 +13,4 @@ RDEPENDS_${PN} = " \
     i2c-tools \
     memtester \
     strace \
-    perf \
 "

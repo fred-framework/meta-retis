@@ -1,5 +1,6 @@
 SUMMARY = "RETIS Lab kernel development image"
 LICENSE = "MIT"
+# This image provides wifi, ethernet, and usual development tools, including kernel level development
 
 inherit core-image-kernel-dev
 require retis-dev-image.bb
