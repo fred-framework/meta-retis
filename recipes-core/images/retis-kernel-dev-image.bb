@@ -17,3 +17,7 @@ IMAGE_INSTALL_append = " \
     stress-ng \
     sysbench \    
 "
+
+# uncomment to install additional tracers
+# https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/123011167/Linux+Debug+infrastructure+KProbe+UProbe+LTTng
+# IMAGE_INSTALL_append = " lttng-tools lttng-modules lttng-ust" 

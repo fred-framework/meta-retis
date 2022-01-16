@@ -26,6 +26,45 @@ To be done !
 petalinux-config -c kernel
 ```
 
+```
+source components/yocto/layers/core/oe-init-build-env 
+bitbake-layers show-appends
+bitbake-layers show-appends | grep retis
+...
+linux-xlnx_2020.2.bb:
+  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/yocto/layers/meta-xilinx/meta-xilinx-contrib/recipes-kernel/linux/linux-xlnx_2020.2.bbappend
+  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/yocto/layers/meta-petalinux/recipes-kernel/linux-xlnx/linux-xlnx_%.bbappend
+  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/project-spec/meta-user/recipes-kernel/linux/linux-xlnx_%.bbappend
+  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/ext_source/meta-retis/recipes-kernel/linux/linux-xlnx_2020.2.bbappend
+  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/yocto/workspace/appends/linux-xlnx_2020.2.bbappend
+...
+```
+
+components/yocto/workspace/sources/linux-xlnx/oe-local-files/
+
+The kernel configuration fragments are located here:
+./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/cpu_idle.cfg
+
+The resulting kernel configuration file can be found here:
+
+./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/linux-xlnx-5.4+git999/.config
+
+
+The log files related to kernel compilation are located here
+./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/temp/
+
+```
+petalinux-build  -c <image-name> -x compile
+```
+
+### Updating the Device tree
+
+https://www.centennialsoftwaresolutions.com/post/using-device-tree-overlays-with-petalinux
+
+Passing the -@ flat to dtc will make it retain information about labels when generating a dtb file, which will allow Linux to figure out at runtime what device tree node a label was referring to.
+
+CONFIG_SUBSYSTEM_DEVICETREE_COMPILER_FLAGS="-@" 
+
 ### PREEMPT_RT Kernel Support
 
 To be done !
