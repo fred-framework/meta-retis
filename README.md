@@ -15,8 +15,58 @@ petalinux-config --get-hw-description=<path containing edt_zcu102_wrapper.xsa>
 ```
 In this case, one can use either the [default project](https://xilinx.github.io/Embedded-Design-Tutorials/docs/2020.2/docs/Introduction/ZynqMPSoC-EDT/3-system-configuration.html) or a custom vivado design. 
 
+```
+$ petalinux-config
+$ cd build
+$ ln -s <yocto-download-dir> downloads
+$ ln -s <yocto-sstate-cache> sstate-cache
+```
+
+## Including `meta-retis` Layer
+
+```
+$ mkdir components/ext_source
+$ cd components/ext_source
+$ git clone -b petalinux https://github.com/fred-framework/meta-retis.git
+$ cd meta-retis
+$ tree
+.
+├── conf
+│   └── layer.conf
+├── LICENSE
+├── README.md
+├── recipes-core
+│   ├── images
+│   │   ├── retis-dev-image.bb
+│   │   ├── retis-image.bb
+│   │   └── retis-kernel-dev-image.bb
+│   ├── packagegroups
+│   │   └── retis-packagegroup-testing.bb
+└── recipes-kernel
+    └── linux
+        └── linux-xlnx
+            ├── files
+            │   ├── defconfig
+            │   ├── ftrace.cfg
+            │   └── rt-frag.cfg
+            └── linux-xlnx_2020.2.bbappend
+```
+
+
+```
+$ cd build
+$ petalinux-config
+  Yocto Settings  --->  User Layers  ---> 
+    ${PROOT}/components/ext_source/meta-retis
+```
 
 ## Image Customization
+
+This layer extends the default petalinux image called `petalinux-image-minimal`, creating three new images:
+
+ - [`retis-image`](./recipes-core/images/retis-image.bb): Includes the `petalinux-image-minimal` plus editors and htop. Access via serial interface or keyboard/hdmi;
+ - [`retis-dev-image`](./recipes-core/images/retis-dev-image.bb): Includes the previous image,  ethernet/wifi, and conventional development tools, e.g., gcc, make, etc. Access via SSH; 
+ - [`retis-kernel-dev-image`](./recipes-core/images/retis-dev-image.bb): Includes the previous image, and kernel development tools and tracers;
 
 ### Kernel Customization
 
