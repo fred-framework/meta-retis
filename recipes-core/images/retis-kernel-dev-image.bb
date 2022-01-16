@@ -2,7 +2,7 @@ SUMMARY = "RETIS Lab kernel development image"
 LICENSE = "MIT"
 # This image provides wifi, ethernet, and usual development tools, including kernel level development
 
-inherit core-image-kernel-dev
+inherit core-image
 require retis-dev-image.bb
 
 # This recipe tracks the 'bleeding edge' linux-xlnx repository.
