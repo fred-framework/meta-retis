@@ -44,9 +44,13 @@ petalinux-config -c rootfs
 
 In the `<PetaLinux-project>` directory, build the Linux images using the following command:
 ```
-petalinux-build
+$ petalinux-build
 ```
+This last command builds the image called `petalinux-image-minimal`, defined in `./components/yocto/layers/meta-petalinux/recipes-core/images/petalinux-image-minimal.bb`. Another alternative image is called `petalinux-image-full`. To choose it, run:
 
+```
+$ petalinux-build -c petalinux-image-full
+```
 This last command takes a long time when it is first executed. After the build process is finished, verify the images in the directory `images/linux`. 
 
 Go to the image directory and generate the boot image `BOOT.BIN` using the following command:
