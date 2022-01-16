@@ -70,42 +70,39 @@ This layer extends the default petalinux image called `petalinux-image-minimal`,
 
 ### Kernel Customization
 
-To be done !
+The kernel customization can be done manually by executing this command:
 
 ```
-petalinux-config -c kernel
+$ petalinux-config -c kernel
 ```
 
+Or, preferably, it can be done automatically using the bbappend of this layer. For this situation, run the following command to check whether the kernel bbappend file was detected:
+
 ```
-source components/yocto/layers/core/oe-init-build-env 
-bitbake-layers show-appends
-bitbake-layers show-appends | grep retis
+$ cd <proj-dir>
+$ source components/yocto/layers/core/oe-init-build-env 
+$ bitbake-layers show-appends | grep retis
 ...
 linux-xlnx_2020.2.bb:
-  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/yocto/layers/meta-xilinx/meta-xilinx-contrib/recipes-kernel/linux/linux-xlnx_2020.2.bbappend
-  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/yocto/layers/meta-petalinux/recipes-kernel/linux-xlnx/linux-xlnx_%.bbappend
-  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/project-spec/meta-user/recipes-kernel/linux/linux-xlnx_%.bbappend
   /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/ext_source/meta-retis/recipes-kernel/linux/linux-xlnx_2020.2.bbappend
-  /ssd/work/petalinux/2020.2/xilinx-zcu102-2020.2/components/yocto/workspace/appends/linux-xlnx_2020.2.bbappend
 ...
 ```
 
-components/yocto/workspace/sources/linux-xlnx/oe-local-files/
-
-The kernel configuration fragments are located here:
-./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/cpu_idle.cfg
-
-The resulting kernel configuration file can be found here:
-
-./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/linux-xlnx-5.4+git999/.config
-
-
-The log files related to kernel compilation are located here
-./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/temp/
+If the bbappend is listed, then we have a successful initial configuration. Next, we run the kernel compilation, using one of the images mentioned before:
 
 ```
-petalinux-build  -c <image-name> -x compile
+$ petalinux-build  -c <image-name> -x compile
 ```
+
+All the kernel configuration files will be stores in the directory `./components/yocto/workspace/sources/linux-xlnx/oe-local-files/`
+
+The kernel configuration fragments can also be located here `./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/cpu_idle.cfg` and the final configuration file can be found here `./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/linux-xlnx-5.4+git999/.config`. Check wheter the final configuration file is correct by checking the expected option values. For instance:
+
+```
+$ cat ./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/linux-xlnx-5.4+git999/.config | grep CONFIG_HZ_1000
+```
+
+The expected value is `y`. In case of error during the kernel compilation, please check the logs in the directory `./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git999-r0/temp/`.
 
 ### Updating the Device tree
 
