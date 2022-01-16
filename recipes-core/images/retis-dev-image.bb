@@ -96,7 +96,7 @@ IMAGE_INSTALL_append = " \
 # extra dev tools
 IMAGE_INSTALL_append = " \
     bash \
-	bash-completion \
+    bash-completion \
     coreutils \
     cmake \
     dtc \
@@ -119,17 +119,6 @@ CORE_IMAGE_EXTRA_INSTALL += " \
 # other features that might be interesting, defined in :
 # /opt/yocto/dunfell/src/poky/meta/recipes-rt/images/core-image-rt-sdk.bb
 # IMAGE_FEATURES += "dev-pkgs tools-sdk tools-debug eclipse-debug tools-profile tools-testapps debug-tweaks"
-# IMAGE_INSTALL += "rt-tests hwlatdetect kernel-dev"
-
-# kernel dev tools
-#IMAGE_INSTALL_append = " \
-#    kernel-dev  \
-#    kernel-devsrc \
-#    cyclitest \
-#    lmbench \
-#    stress-ng \
-#    sysbench \    
-#"
 
 # install the package-management tool (opkg, dnf, apt), depending on the format selected next. the default is rpm.
 EXTRA_IMAGE_FEATURES += " package-management " 
