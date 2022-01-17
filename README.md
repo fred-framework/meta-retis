@@ -202,6 +202,24 @@ The list of installed packages can be found in the `images/linux/rootfs.manifest
 
 Copy the `BOOT.BIN`, `image.ub`, and `boot.scr` files to the **boot partition** of the SD card, formated with **FAT32**. Copy the `rootfs` file to the **rootfs partition** of the SD card, formated with **EXT4**. 
 
+## Suggested Git Branch Organization
+
+For future reference, it is suggested the following git branch organization for the support of future petalinux or yocto-based design flows. 
+
+```
+main
+├── petalinux
+│   ├── v2020.2
+│   │   ├── feature_1
+│   │   └── feature_2
+│   ├── v2021.1
+│   └── ...
+└── yocto
+    ├── dunfell
+    ├── zeus
+    └── ...
+```
+
 ## TODO
 
  - [ ] Supporting PREEMPT_RT;
