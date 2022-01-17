@@ -14,9 +14,9 @@ S = "${WORKDIR}/git"
 DEPENDS = "coreutils-native"
 
 PROVIDES = "stress"
-RPROVIDES:${PN} = "stress"
-RREPLACES:${PN} = "stress"
-RCONFLICTS:${PN} = "stress"
+#RPROVIDES:${PN} = "stress"
+#RREPLACES:${PN} = "stress"
+#RCONFLICTS:${PN} = "stress"
 
 inherit bash-completion
 
