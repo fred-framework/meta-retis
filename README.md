@@ -122,6 +122,11 @@ Passing the -@ flat to dtc will make it retain information about labels when gen
 
 CONFIG_SUBSYSTEM_DEVICETREE_COMPILER_FLAGS="-@" 
 
+fdtoverlay
+
+fdtoverlay is a tool created to test libfdt. It applies one or more overlay .dtb files to a base .dtb file. It appears that some people are also using fdtoverlay to apply overlays pre-boot.
+fdtoverlay is located in the dtc project and can easily be built there. It is queued up to be added to the Linux kernel source tree in Linux 5.11 or 5.12-rc1. 
+
 ### PREEMPT_RT Kernel Support
 
 To be done !
@@ -178,6 +183,16 @@ Copy the `BOOT.BIN`, `image.ub`, and `boot.scr` files to the **boot partition** 
  - [ ] Yocto - [Tracing and Profiling](https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling);
  - [ ] Check support for device tree fragments;
 
+
+## References
+
+ - [A practical guide to BitBake](https://a4z.gitlab.io/docs/BitBake/guide.html)
+ - [bitbake commands](https://backstreetcoder.com/bitbake-commands/)
+ - [Wind River Linux - Platform Development Guide](https://docs.windriver.com/bundle/Wind_River_Linux_Platform_Developers_Guide_LTS_19/) excelent documentation on how to use Yocto for their Linux product;
+ - [HOWTO setup Linux with PREEMPT_RT properly](https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/preemptrt_setup);
+ - [Realtime Testing Best Practices](https://elinux.org/Realtime_Testing_Best_Practices);
+ - [Device Tree Reference](https://elinux.org/Device_Tree_Reference);
+ - [Devicetree Overlay Notes](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/devicetree/overlay-notes.rst);
 
 ## Contributions
 
