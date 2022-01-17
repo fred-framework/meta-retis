@@ -126,6 +126,7 @@ fdtoverlay
 
 fdtoverlay is a tool created to test libfdt. It applies one or more overlay .dtb files to a base .dtb file. It appears that some people are also using fdtoverlay to apply overlays pre-boot.
 fdtoverlay is located in the dtc project and can easily be built there. It is queued up to be added to the Linux kernel source tree in Linux 5.11 or 5.12-rc1. 
+https://github.com/ev3dev/device-tree-compiler/blob/ev3dev-xenial/fdtoverlay.c
 
 ### PREEMPT_RT Kernel Support
 
