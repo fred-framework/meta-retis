@@ -10,7 +10,7 @@ This documentation considers the following requirements:
 
 Despite of that, we *believe* that this Yocto Layer is general enough, with minor tweaks, to be used with other Petalinux versions and Xilinx boards.
 
-## Creating a PetaLinux Project
+## Creating a PetaLinux Project and Basic Configuration
 
 Create a PetaLinux project using the following command:
 ```
@@ -26,12 +26,32 @@ In this case, one can use either the [default project](https://xilinx.github.io/
 ```
 $ cd <proj-dir>
 $ petalinux-config
+    Subsystem AUTO Hardware Settings  ---> Ethernet Settings  ---> Randomise MAC address
+    Image Packaging Configuration  ---> Root filesystem type ---> EXT4 SD card
+```
+
+This previous command run petalinux-config and it does two basic configurations. The first configuration is to randomize the Ethernet MAC address. This is important when there are multiple petalinux boards in the same network because, otherwise, there will be connection problems among the boards. The second configuration configure the board to boot from the SD card with EXT4 partition. 
+This process will create the build directory in the newly created petalinux project. The configuration is saved in the file `./project-spec/configs/config` and it looks like this:
+
+```
+CONFIG_SUBSYSTEM_ETHERNET_PSU_ETHERNET_3_MAC_PATTERN="00:0a:35:00:??:??"
+# CONFIG_SUBSYSTEM_ROOTFS_INITRD is not set
+# CONFIG_SUBSYSTEM_ROOTFS_JFFS2 is not set
+# CONFIG_SUBSYSTEM_ROOTFS_NFS is not set
+CONFIG_SUBSYSTEM_ROOTFS_EXT4=y
+# CONFIG_SUBSYSTEM_ROOTFS_OTHER is not set
+CONFIG_SUBSYSTEM_SDROOT_DEV="/dev/mmcblk0p2"
+CONFIG_SUBSYSTEM_ETHERNET_PSU_ETHERNET_3_MAC="00:0a:35:00:dd:07"
+CONFIG_SUBSYSTEM_BOOTARGS_GENERATED=" earlycon console=ttyPS0,115200 clk_ignore_unused root=/dev/mmcblk0p2 rw rootwait"
+```
+
+When petalinux-config exits, it creates the *build directory*. It is recommemded to reuse **Yocto downloads and sstates directories** from previous petalinux projects. If these two directories do not exist, no problem. It will only take longer to download all necessary code. For reuse the directories, it is enough to execute the follwoing commands:
+
+```
 $ cd build
 $ ln -s <yocto-download-dir> downloads
 $ ln -s <yocto-sstate-cache> sstate-cache
 ```
-
-These last set of commands run petalinux-config and exit it. This process will create the build directory in the newly created petalinux project. In the build directory, it is recommemded to reuse Yocto downloads and sstates directories from previous petalinux projects. If these two directories do not exist, no problem. It will only take longer to download all necessary code.
 
 ## Including `meta-retis` Layer
 
@@ -200,7 +220,11 @@ The list of installed packages can be found in the `images/linux/rootfs.manifest
 
 ## Image Deploy
 
-Copy the `BOOT.BIN`, `image.ub`, and `boot.scr` files to the **boot partition** of the SD card, formated with **FAT32**. Copy the `rootfs` file to the **rootfs partition** of the SD card, formated with **EXT4**. 
+Copy the `BOOT.BIN`, `image.ub`, and `boot.scr` files to the **boot partition** of the SD card, formated with **FAT32**. Copy the `rootfs.tar.gz` file to the **rootfs partition** of the SD card, formated with **EXT4**. 
+
+```
+$ sudo tar -xf rootfs.tar.gz --directory=/media/<user>/<rootfs-partition>
+```
 
 ## Suggested Git Branch Organization
 
