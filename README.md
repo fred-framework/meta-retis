@@ -226,6 +226,40 @@ Copy the `BOOT.BIN`, `image.ub`, and `boot.scr` files to the **boot partition** 
 $ sudo tar -xf rootfs.tar.gz --directory=/media/<user>/<rootfs-partition>
 ```
 
+An alternative to the standard approach to save the image is to use the **wic image format**. Wic creates a single file with the entire partition tree. This format supports sparse file formats such that, when compressed, their size is greatly reduced even for large partitions. The wic file is generated like this, in the `images/linux` directory:
+
+```
+$ cd images/linux
+$ petalinux-package --wic
+$ ls -lah *wic
+  -rw-r--r-- 1 aamory aamory 4.1G Jan 17 19:51 petalinux-sdimage.wic
+$ tar czf  petalinux-sdimage.wic.tar.gz petalinux-sdimage.wic
+$ ls -lah *wic.tar.gz
+  -rw-rw-r-- 1 aamory aamory  48M Jan 17 19:52 petalinux-sdimage.wic.tar.gz
+```
+
+Note the reduced file size when compressed.  Wic is a smarter image format that can save alot of time when burning a SD card. Use [balena etcher](https://www.balena.io/etcher/) or [bmaptool](https://github.com/intel/bmap-tools) for faster results. 
+
+First, insert the SD card and run `df` to find out the SD card device (assuming it is `/dev/sdb`).
+Next, unmount the its partitions. If `bmaptool` is not installed, run: 
+
+```bash
+$ sudo apt install bmap-tools
+```
+
+Finally, to perform the actual copy to the SD card, run: 
+
+```bash
+$ sudo bmaptool copy --bmap image.wic.bmap image.wic.bz2 /dev/sdb
+bmaptool: info: block map format version 2.0
+bmaptool: info: 93287 blocks of size 4096 (364.4 MiB), mapped 50084 blocks (195.6 MiB or 53.7%)
+bmaptool: info: copying image 'image.wic.bz2' to block device '/dev/sdb' using bmap file 'image.wic.bmap'
+bmaptool: WARNING: failed to enable I/O optimization, expect suboptimal speed (reason: cannot switch to the 'noop' I/O scheduler: [Errno 22] Invalid argument)
+bmaptool: info: 100% copied
+bmaptool: info: synchronizing '/dev/sdb'
+bmaptool: info: copying time: 11.9s, copying speed 16.4 MiB/sec
+```
+
 ## Suggested Git Branch Organization
 
 For future reference, it is suggested the following git branch organization for the support of future petalinux or yocto-based design flows. 
@@ -247,7 +281,7 @@ main
 ## TODO
 
  - [ ] Supporting PREEMPT_RT;
- - [ ] Support for wic image format and [bmaptool](https://github.com/intel/bmap-tools); 
+ - [x] Support for wic image format and [bmaptool](https://github.com/intel/bmap-tools); 
  - [x] Add [`stress-ng`](http://cgit.openembedded.org/openembedded-core/plain/meta/recipes-extended/stress-ng/stress-ng_0.13.09.bb) recipe or get it from [github](https://github.com/ColinIanKing/stress-ng). https://www.yoctoproject.org/pipermail/yocto/2015-August/026123.html;
  - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
  - [ ] [realtime validation](https://github.com/toradex/rt-validation);
