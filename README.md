@@ -61,7 +61,7 @@ The next step is to include this layer into the petalinux project by running:
 $ cd <proj-dir>
 $ mkdir components/ext_source
 $ cd components/ext_source
-$ git clone -b petalinux https://github.com/fred-framework/meta-retis.git
+$ git clone -b v2020.2 https://github.com/fred-framework/meta-retis.git
 $ cd meta-retis
 $ tree
 .
@@ -178,7 +178,7 @@ Both the `retis-dev-image` and `retis-kernel-dev-image` include the device tree 
 Finally, the kernel is configured to support device tree overlays. So the designer has all the tools required o tweak the device tree in runtime with [overlay fragments](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/devicetree/overlay-notes.rst).
 
 Currently, to change the device tree, it is necessary to add the device in the 
-`project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi` file. Here is an example taken from [here](https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/gpio/gpio-xilinx.txt) for a gpio device:
+`project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi` file. Here is an example taken from [here](https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/gpio/gpio-xilinx.txt) and [here](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842398/Linux+GPIO+Driver) for a gpio device:
 
 ```
 /include/ "system-conf.dtsi"
@@ -198,7 +198,12 @@ When running in the board, it will be possible to see the definition in:
 $ cat /sys/firmware/devicetree/base/__symbols__/gpio123
 ```
 
+When the devicetree is changed, run the following commands to update it only:
 
+```
+$ petalinux-build -c device-tree -x cleansall
+$ petalinux-build -c device-tree
+```
 
 ### PREEMPT_RT Kernel Support
 
@@ -326,6 +331,9 @@ main
  - [ ] Supporting PREEMPT_RT;
  - [x] Support for wic image format and [bmaptool](https://github.com/intel/bmap-tools); 
  - [ ] Include a working device-tree.bbappend in the layer;
+   - [ ] https://github.com/analogdevicesinc/meta-adi/blob/master/meta-adi-xilinx/recipes-bsp/fpga-manager-util/fpga-manager-util_%25.bbappend
+   - [ ] https://github.com/analogdevicesinc/meta-adi/blob/master/meta-adi-xilinx/recipes-bsp/device-tree/files/pl-zynqmp-zcu102-rev10-ad9361-fmcomms2-3-overlay.dtsi
+   - [ ] https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/61669922/Customizing+Device+Trees+in+Xilinx+Yocto
  - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
  - [ ] [realtime validation](https://github.com/toradex/rt-validation);
  - [ ] https://support.xilinx.com/s/article/66853?language=en_US;
