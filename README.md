@@ -340,6 +340,7 @@ main
  - [ ] Yocto - [Tracing and Profiling](https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling);
  - [ ] Check support for device tree fragments;
  - [ ] Use `petalinux-devtool`;
+ - [ ] [Build Ubuntu Image](https://github.com/ikwzm/ZynqMP-FPGA-Ubuntu20.04-Ultra96) or from [this tutorial](https://highlevel-synthesis.com/2019/12/15/running-ubuntu-on-ultra96v2-using-petalinux-2019-2-with-networking-and-linux-header/);
 
 ## References
 
