@@ -1,3 +1,6 @@
+### WARNINIG: this  bbappend is currently not working. 
+### the current way to adapt the DT is by including it in 
+### project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
 SUMMARY = "RETIS Lab devicetree tweaks"
 LICENSE = "MIT"
 

@@ -177,6 +177,29 @@ Both the `retis-dev-image` and `retis-kernel-dev-image` include the device tree 
 
 Finally, the kernel is configured to support device tree overlays. So the designer has all the tools required o tweak the device tree in runtime with [overlay fragments](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/devicetree/overlay-notes.rst).
 
+Currently, to change the device tree, it is necessary to add the device in the 
+`project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi` file. Here is an example taken from [here](https://github.com/Xilinx/linux-xlnx/blob/master/Documentation/devicetree/bindings/gpio/gpio-xilinx.txt) for a gpio device:
+
+```
+/include/ "system-conf.dtsi"
+/ {
+    gpio123: gpio@41000000 {
+            #gpio-cells = <2>;
+            compatible = "xlnx,xps-gpio-1.00.a";
+            gpio-controller ;
+            reg = < 0x41000000 0x10000 >;
+    };
+};
+```
+
+When running in the board, it will be possible to see the definition in:
+
+```
+$ cat /sys/firmware/devicetree/base/__symbols__/gpio123
+```
+
+
+
 ### PREEMPT_RT Kernel Support
 
 **To be done !**
@@ -188,6 +211,26 @@ The images already add software to the RootFS. However, it is also possible to b
 ```
 $ petalinux-config -c rootfs
 ```
+
+Another way to customize the rootfs is by including recipes for additional packages. For instance, the recipe `recipes-apps/real-time/stress-ng_0.13.09.bb` replaces [the default stress version used in Yocto Zeus](http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb?h=zeus) by a newer version. When running in the board, one can confirm that the newer version is used:
+
+```
+root@xilinx-zcu102-2020_2:~# stress-ng -v
+stress-ng: debug: [838] stress-ng 0.13.09 g757b66b49e4b
+stress-ng: debug: [838] system: Linux xilinx-zcu102-2020_2 5.4.0-xilinx-v2020.2 #1 SMP Sat Jan 22 14:31:20 UTC 2022 aarch64
+stress-ng: debug: [838] RAM total: 3.8G, RAM free: 3.8G, swap free: 0.0
+stress-ng: debug: [838] 4 processors online, 4 processors configured
+stress-ng: info:  [838] defaulting to a 86400 second (1 day, 0.00 secs) run per stressor
+stress-ng: error: [838] No stress workers invoked
+```
+
+When there are multiple versions for the same recipe, like in this example with stress-ng, the following command has to be used to select the version:
+
+```
+PREFERRED_VERSION_stress-ng = "0.13.09"
+```
+
+If you want to build a recipe with your own software, please refer to [`learning-yocto`](https://github.com/amamory-embedded/learning-yocto).
 
 Now, the image is ready to be built.
 
@@ -212,7 +255,7 @@ Or executing :
 
 ```
 $ cd images/linux
-$ petalinux-package --boot --fsbl zynqmp_fsbl.elf --fpga system.bit --pmufw pmufw.elf --atf bl31.elf --u-boot u-boot.elf
+$ petalinux-package --boot --force --fsbl zynqmp_fsbl.elf --fpga system.bit --pmufw pmufw.elf --atf bl31.elf --u-boot u-boot.elf
 ```
 If the vivado design uses the **PL** part. Note that this last option includes the .bit into the `BOOT.BIN`. 
 
@@ -288,6 +331,7 @@ main
  - [ ] https://support.xilinx.com/s/article/66853?language=en_US;
  - [ ] Yocto - [Tracing and Profiling](https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling);
  - [ ] Check support for device tree fragments;
+ - [ ] Use `petalinux-devtool`;
 
 ## References
 
