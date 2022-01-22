@@ -325,7 +325,7 @@ main
 
  - [ ] Supporting PREEMPT_RT;
  - [x] Support for wic image format and [bmaptool](https://github.com/intel/bmap-tools); 
- - [x] Add [`stress-ng`](http://cgit.openembedded.org/openembedded-core/plain/meta/recipes-extended/stress-ng/stress-ng_0.13.09.bb) recipe or get it from [github](https://github.com/ColinIanKing/stress-ng). https://www.yoctoproject.org/pipermail/yocto/2015-August/026123.html;
+ - [ ] Include a working device-tree.bbappend in the layer;
  - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
  - [ ] [realtime validation](https://github.com/toradex/rt-validation);
  - [ ] https://support.xilinx.com/s/article/66853?language=en_US;
