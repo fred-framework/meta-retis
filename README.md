@@ -161,6 +161,72 @@ performance
 performance
 ```
 
+### PREEMPT_RT Kernel Support
+
+**ATTENTION:** The preempt_rt patch is applied by default. If you don't want it, go to the file [`recipes-kernel/linux/linux-xlnx_2020.2.bbappend`](./recipes-kernel/linux/linux-xlnx_2020.2.bbappend) and remove the files `preempt_rt.cfg` and `patch-5.4.3-rt1.patch` from `SRC_URI`.
+
+The rest of this section documents how the patch was included into the layer, so that the process can be repeated in the future, for supporting a different Linux kernel version. 
+The first step to apply preempt_rt patch is to figure out the Linux kernel version used by this version of petalinux (2020.2). These commands show this information:
+
+```
+$ cd ./components/yocto/workspace/sources/linux-xlnx/
+$ more Makefile
+# SPDX-License-Identifier: GPL-2.0
+VERSION = 5
+PATCHLEVEL = 4
+SUBLEVEL = 0
+EXTRAVERSION =
+NAME = Kleptomaniac Octopus
+$ git status
+On branch xlnx_rebase_v5.4
+```
+
+It shows that we have kernel version v5.4.0. Next, we have to find the preempt_rt patch version with closest match, which in this case is [patch-5.4.3-rt1](https://cdn.kernel.org/pub/linux/kernel/projects/rt/5.4/older/patch-5.4.3-rt1.patch.gz). To apply this patch, execute the following commands:
+
+```
+$ cd ./components/yocto/workspace/sources/
+$ wget https://cdn.kernel.org/pub/linux/kernel/projects/rt/5.4/older/patch-5.4.3-rt1.patch.gz
+$ gunzip patch-5.4.3-rt1.patch.gz
+$ cd linux-xlnx/
+$ patch --dry-run -p1 < ../patch-5.4.3-rt1.patch | grep -i failed
+$ patch -p1 < ../patch-5.4.3-rt1.patch
+```
+ps.: the kernel source code can also be located in `build/tmp/work-shared/zynqmp-generic/kernel-source`. 
+
+Note that the first patch execution is only used to test if the patch worked. If not, then you have to try patching another patch version or consider replacing the Linux kernel version. This command showed that there was a single error. If we proceed with the process as it is, there will be a failure. 
+
+```
+$ cd <proj-dir>
+$ petalinux-build -c kernel -x patch
+```
+
+The used patch present an error as shown below. Analysing the code, the patch was removing 2 lines that were not anymore in the code, so these modifications could be safely removed manually from the pacth file. 
+
+```
+| error: patch failed: arch/arm/kernel/smp.c:678
+| error: arch/arm/kernel/smp.c: patch does not apply
+```
+
+After repeating the process, the patch was successfull and we could proceeed to kernel compilation and image generations:
+
+```
+$ cd <proj-dir>
+$ petalinux-build -c kernel -x patch
+$ petalinux-build -c kernel -x compile
+$ petalinux-build -c <image-name>
+```
+
+Finally, proceeed with the boot and test the image with the following commands:
+
+```
+root@xilinx-zcu102-2020_2:~# uname -a
+Linux xilinx-zcu102-2020_2 5.4.0-rt1-xilinx-v2020.2 #1 SMP PREEMPT_RT Sun Jan 23 14:21:29 UTC 2022 aarch64 GNU/Linux
+root@xilinx-zcu102-2020_2:~# zcat /proc/config.gz | grep CPU_IDLE
+# CONFIG_CPU_IDLE is not set
+root@xilinx-zcu102-2020_2:~# zcat /proc/config.gz | grep PREEMPT_RT
+CONFIG_PREEMPT_RT=y
+```
+
 ### Updating the Device Tree
 
 The device tree must be generated with embedded labels so these labels can be referenced later in the device tree overlays in runtime. To do so, `dtc` must be executed the `-@` argument. This will make dtc retain information about labels when generating a dtb file, which will allow Linux to figure out at runtime what device tree node a label was referring to. To achieve such results in petalinux, the `CONFIG_SUBSYSTEM_DEVICETREE_COMPILER_FLAGS` option must be set. In the base directory run the following command:
@@ -205,9 +271,6 @@ $ petalinux-build -c device-tree -x cleansall
 $ petalinux-build -c device-tree
 ```
 
-### PREEMPT_RT Kernel Support
-
-**To be done !**
 
 ### RootFS Customization
 
