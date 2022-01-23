@@ -64,26 +64,34 @@ $ cd components/ext_source
 $ git clone -b v2020.2 https://github.com/fred-framework/meta-retis.git
 $ cd meta-retis
 $ tree
-.
 ├── conf
-│   └── layer.conf
+│   └── layer.conf
 ├── LICENSE
 ├── README.md
+├── recipes-apps
+│   └── real-time
+│       └── stress-ng_0.13.09.bb
+├── recipes-bsp
+│   └── device-tree
+│       ├── device-tree.bbappend_xx
+│       └── files
+│           └── system-user.dtsi
 ├── recipes-core
-│   ├── images
-│   │   ├── retis-dev-image.bb
-│   │   ├── retis-image.bb
-│   │   └── retis-kernel-dev-image.bb
-│   ├── packagegroups
-│   │   └── retis-packagegroup-testing.bb
+│   ├── images
+│   │   ├── retis-dev-image.bb
+│   │   ├── retis-image.bb
+│   │   └── retis-kernel-dev-image.bb
+│   ├── packagegroups
+│   │   └── retis-packagegroup-testing.bb
 └── recipes-kernel
     └── linux
-        └── linux-xlnx
-            ├── files
-            │   ├── defconfig
-            │   ├── ftrace.cfg
-            │   └── rt-frag.cfg
-            └── linux-xlnx_2020.2.bbappend
+        ├── files
+        │   ├── defconfig
+        │   ├── ftrace.cfg
+        │   ├── patch-5.4.3-rt1.patch
+        │   ├── preempt_rt.cfg
+        │   └── rt-frag.cfg
+        └── linux-xlnx_2020.2.bbappend
 ```
 
 Then, in the build directory, run petalinux-config to add the path to the layer.
@@ -131,6 +139,12 @@ If the bbappend is listed, then we have a successful initial configuration. Next
 $ petalinux-build  -c <image-name> -x compile
 ```
 
+The kernel configurations files are located at `recipes-kernel/linux/files` and they are activated by including them in its bbappend file. By default, only the `ftrace.cfg` configuration file is not compiled.
+ - [`recipes-kernel/linux/files/rt-frag.cfg`](./recipes-kernel/linux/files/rt-frag.cfg)
+ - [`recipes-kernel/linux/files/ftrace.cfg`](https://www.kernel.org/doc/html/latest/trace/ftrace.html)
+ - [`recipes-kernel/linux/files/preempt_rt.cfg`](./recipes-kernel/linux/files/preempt_rt.cfg)
+
+
 All the kernel configuration files will be stores in the directory `./components/yocto/workspace/sources/linux-xlnx/oe-local-files/`
 
 The kernel configuration fragments can also be located here `./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git<SOME-NUMBER>/cpu_idle.cfg` and the final configuration file can be found here `./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git<SOME-NUMBER>/linux-xlnx-5.4+git<SOME-NUMBER>/.config`. Check wheter the final configuration file is correct by checking the expected option values. For instance:
@@ -141,7 +155,6 @@ CONFIG_HZ_1000=y
 ```
 
 The expected value is `y`. In case of error during the kernel compilation, please check the logs in the directory `./build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+git<SOME-NUMBER>/temp/`.
-
 
 Another kernel option set in this example is `CONFIG_IKCONFIG`, which writes the kernel configuration file into `/proc/config.gz`. Thus, one can check the option values by running in the board:
 
@@ -271,7 +284,6 @@ $ petalinux-build -c device-tree -x cleansall
 $ petalinux-build -c device-tree
 ```
 
-
 ### RootFS Customization
 
 The images already add software to the RootFS. However, it is also possible to browse a *menuconfig style* tool to select addtional tools by running:
@@ -303,7 +315,6 @@ If you want to build a recipe with your own software, please refer to [`learning
 Now, the image is ready to be built.
 
 ## Image Building and Packing
-
 
 In the `<PetaLinux-project>` directory, build the Linux images using the following command:
 ```
@@ -391,7 +402,7 @@ main
 
 ## TODO
 
- - [ ] Supporting PREEMPT_RT;
+ - [x] Supporting PREEMPT_RT;
  - [x] Support for wic image format and [bmaptool](https://github.com/intel/bmap-tools); 
  - [ ] Include a working device-tree.bbappend in the layer;
    - [ ] https://github.com/analogdevicesinc/meta-adi/blob/master/meta-adi-xilinx/recipes-bsp/fpga-manager-util/fpga-manager-util_%25.bbappend
@@ -399,7 +410,7 @@ main
    - [ ] https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/61669922/Customizing+Device+Trees+in+Xilinx+Yocto
  - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
  - [ ] [realtime validation](https://github.com/toradex/rt-validation);
- - [ ] https://support.xilinx.com/s/article/66853?language=en_US;
+ - [ ] [How to set up Kernel debug using PetaLinux](https://support.xilinx.com/s/article/66853?language=en_US);
  - [ ] Yocto - [Tracing and Profiling](https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling);
  - [ ] Check support for device tree fragments;
  - [ ] Use `petalinux-devtool`;
@@ -410,7 +421,6 @@ main
  - [A practical guide to BitBake](https://a4z.gitlab.io/docs/BitBake/guide.html)
  - [bitbake commands](https://backstreetcoder.com/bitbake-commands/)
  - [Wind River Linux - Platform Development Guide](https://docs.windriver.com/bundle/Wind_River_Linux_Platform_Developers_Guide_LTS_19/) excelent documentation on how to use Yocto for their Linux product;
- - [HOWTO setup Linux with PREEMPT_RT properly](https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/preemptrt_setup);
  - [Realtime Testing Best Practices](https://elinux.org/Realtime_Testing_Best_Practices);
  - [Device Tree Reference](https://elinux.org/Device_Tree_Reference);
  - [Devicetree Overlay Notes](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/devicetree/overlay-notes.rst);
