@@ -8,7 +8,7 @@ This documentation considers the following requirements:
  - PetaLinux v2020.2;
  - ZCU102 UltraScale+ board;
 
-Despite of that, we *believe* that this Yocto Layer is general enough, with minor tweaks, to be used with other Petalinux versions and Xilinx boards.
+Despite of that, we *believe* that this Yocto Layer is general enough, with minor tweaks, to be used with other Petalinux versions and Xilinx boards. For testing purposes, we checked the described flow with a PYNQ-Z1 board and the image worked. See the section `Working with Other Boards` for more information.
 
 ## Creating a PetaLinux Project and Basic Configuration
 
@@ -381,6 +381,20 @@ bmaptool: info: 100% copied
 bmaptool: info: synchronizing '/dev/sdb'
 bmaptool: info: copying time: 11.9s, copying speed 16.4 MiB/sec
 ```
+## Working with Other Boards
+
+This Yocto layer was also tested with a PYNQ-Z1 board. No layer modification was necessary. The minor changes required were the usual changes for setting up a petalinux project. The following steps were taken:
+- Create a Vivado block design with just the Zynq processor block. Then, export the Vivado design, creating the `xsa` file;
+- Run petalinux `settings.sh` script;
+- Run the following petalinux commands:
+
+```
+$ petalinux-create -t project --template zynq -n <proj-name>
+$ petalinux-config --get-hw-description=<the-generated.xsa>
+...
+```
+- The rest of the flow is exactly the same as for the ZCU102 board;
+- Burn the SD card, configure the board for SD boot, plug the serial interface to have the terminal for testing the image.
 
 ## Suggested Git Branch Organization
 
