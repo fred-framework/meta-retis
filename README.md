@@ -474,7 +474,7 @@ main
 
 ## Authors
 
- - Alexandre Amory (January 2022), ReTiS Lab, Scuola Sant'Anna, Pisa, Italy.
+ - Alexandre Amory (January 2022), [Real-Time Systems Laboratory (ReTiS Lab)](https://retis.santannapisa.it/), [Scuola Superiore Sant'Anna (SSSA)](https://www.santannapisa.it/), Pisa, Italy.
 
 ## Funding
  
