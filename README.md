@@ -280,9 +280,20 @@ $ cat /sys/firmware/devicetree/base/__symbols__/gpio123
 When the devicetree is changed, run the following commands to update it only:
 
 ```
-$ petalinux-build -c device-tree -x cleansall
+$ petalinux-build -c device-tree -x cleanall
 $ petalinux-build -c device-tree
 ```
+
+## Bootloader Customization
+
+This recipe does not change the bootloader but, if they are required, then run:
+
+```
+petalinux-config u-boot
+petalinux-build -c u-boot
+```
+
+It is also possible to modify the `./project-spec/meta-user/conf/petalinuxbsp.conf` file.
 
 ### RootFS Customization
 
@@ -418,16 +429,33 @@ main
 
  - [x] Supporting PREEMPT_RT;
  - [x] Support for wic image format and [bmaptool](https://github.com/intel/bmap-tools); 
- - [ ] Include a working device-tree.bbappend in the layer;
-   - [ ] https://github.com/analogdevicesinc/meta-adi/blob/master/meta-adi-xilinx/recipes-bsp/fpga-manager-util/fpga-manager-util_%25.bbappend
-   - [ ] https://github.com/analogdevicesinc/meta-adi/blob/master/meta-adi-xilinx/recipes-bsp/device-tree/files/pl-zynqmp-zcu102-rev10-ad9361-fmcomms2-3-overlay.dtsi
-   - [ ] https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/61669922/Customizing+Device+Trees+in+Xilinx+Yocto
- - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
- - [ ] [realtime validation](https://github.com/toradex/rt-validation);
- - [ ] [How to set up Kernel debug using PetaLinux](https://support.xilinx.com/s/article/66853?language=en_US);
- - [ ] Yocto - [Tracing and Profiling](https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling);
- - [ ] Check support for device tree fragments;
- - [ ] Use `petalinux-devtool`;
+ - [x] Include a working device-tree.bbappend in the layer;
+   - [x] https://github.com/analogdevicesinc/meta-adi/blob/master/meta-adi-xilinx/recipes-bsp/fpga-manager-util/fpga-manager-util_%25.bbappend
+   - [x] https://github.com/analogdevicesinc/meta-adi/blob/master/meta-adi-xilinx/recipes-bsp/device-tree/files/pl-zynqmp-zcu102-rev10-ad9361-fmcomms2-3-overlay.dtsi
+   - [x] https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/61669922/Customizing+Device+Trees+in+Xilinx+Yocto
+   - [x] Check support for device tree fragments;
+   [ ] follow the [recipe style guidelines](https://www.openembedded.org/wiki/Styleguide);
+ - [ ] Testing:
+   - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
+   - [ ] [Testing Continuously Applications Using a Cloud Based Infrastructure Using Virtualization and Real Hardware in the Loop](https://iot.bzh/en/publications/44-2021/121-testing-continuously-applications-using-a-cloud-based-infrastructure-using-virtualization-and-real-hardware-in-the-loop);
+ - [ ] Realtime validation
+   - [ ] [Real-time testing with Fuego](https://elinux.org/images/4/43/ELC2018_Real-time_testing_with_Fuego-181024m.pdf);
+   - [ ] [realtime validation](https://github.com/toradex/rt-validation);
+   - [ ] Yocto - [Tracing and Profiling](https://wiki.yoctoproject.org/wiki/Tracing_and_Profiling);
+ - [ ] Remote debugging: 
+   - [ ] [Cross debugging on Linux : A history, current state of the art and coming improvements](https://iot.bzh/en/publications/119-cross-debugging-on-linux-a-history,-current-state-of-the-art-and-coming-improvements);
+   - [ ] [Yocto: Debugging With the GNU Project Debugger (GDB) Remotely](https://docs.yoctoproject.org/singleindex.html#debugging-with-the-gnu-project-debugger-gdb-remotely)
+   - [ ] [Cross architecture remote debugging using gdb with Visual Studio Code (vscode) on Linux](https://medium.com/@karel.l.vermeiren/cross-architecture-remote-debugging-using-gdb-with-visual-studio-code-vscode-on-linux-c0572794b4ef)
+  - [ ] [How to set up Kernel debug using PetaLinux](https://support.xilinx.com/s/article/66853?language=en_US);
+ - [ ] Apply more realtime recommendations, such as:
+   - [ ] [Practical Real-Time Linux](https://elinux.org/images/d/d7/Practical-Real-Time-Linux-ELCE15.pdf)
+   - [ ] Move towards similar goals to [AGL Real-time Architecture Options for Critical Services](https://iot.bzh/download/public/2018/ALS-Tokyo/Fulup/agl-realtime-options-fulup-tokyo-2018.pdf)
+   - [ ] [Understanding Linux real-time with PREEMPT_RT](https://bootlin.com/doc/training/preempt-rt/preempt-rt-slides.pdf)
+ - [ ] RTOS and isolation
+   - [ ] [Hardware Isolation Running RTOS Concurrently with AGL on Renesas R-Car](https://iot.bzh/download/public/2021/agl-amm/March17_JulienMassot_Hardware-isolation-running-rtos-concurrently-with-agl-on-renesas-r-car.pdf);
+   - [ ] [meta-zephyr](https://wiki.yoctoproject.org/wiki/TipsAndTricks/BuildingZephyrImages);
+   - [ ] [zephyr docker](https://github.com/iotbzh/ZephyrDocker/blob/master/Dockerfile)
+   - [ ] [meta-jailhouse](https://github.com/Limoto/meta-jailhouse)
  - [ ] [Build Ubuntu Image](https://github.com/ikwzm/ZynqMP-FPGA-Ubuntu20.04-Ultra96) or from [this tutorial](https://highlevel-synthesis.com/2019/12/15/running-ubuntu-on-ultra96v2-using-petalinux-2019-2-with-networking-and-linux-header/);
 
 ## References
@@ -438,7 +466,8 @@ main
  - [Realtime Testing Best Practices](https://elinux.org/Realtime_Testing_Best_Practices);
  - [Device Tree Reference](https://elinux.org/Device_Tree_Reference);
  - [Devicetree Overlay Notes](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/devicetree/overlay-notes.rst);
-
+ - [Introduction to Realtime Linux](https://www.youtube.com/watch?v=BKkX9WASfpI&t=1s).
+ 
 ## Contributions
 
   Did you find a bug in this layer ? Do you have some extensions or updates to add ? Please send us a Pull Request.
