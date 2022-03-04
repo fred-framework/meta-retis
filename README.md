@@ -407,6 +407,19 @@ $ petalinux-config --get-hw-description=<the-generated.xsa>
 - The rest of the flow is exactly the same as for the ZCU102 board;
 - Burn the SD card, configure the board for SD boot, plug the serial interface to have the terminal for testing the image.
 
+## Generate bsp file
+
+The BSP file contains all the configuration files, as well as all the recipes imported to the PetaLinux project. This is the recommedded way to reproduce the generated image. Use the following command to generate the BSP file:
+
+```
+petalinux-package --bsp -p <petalinux-project-dir> --output <filename>.bsp
+```
+
+When you need to regenerate the Linux image, run:
+
+```
+petalinux-create -t project -s  <filename>.bsp
+```
 ## Suggested Git Branch Organization
 
 For future reference, it is suggested the following git branch organization for the support of future petalinux or yocto-based design flows. 
