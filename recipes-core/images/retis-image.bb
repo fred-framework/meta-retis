@@ -8,4 +8,6 @@ require ./recipes-core/images/petalinux-image-minimal.bb
 
 # autostart: to boot without login
 
-IMAGE_INSTALL_append = " autostart vim nano htop"
+# for some reason, autostart is not found when this layer is run together with meta-ros
+#IMAGE_INSTALL_append = " autostart vim nano htop"
+IMAGE_INSTALL_append = " vim nano htop"
