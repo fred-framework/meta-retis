@@ -110,6 +110,17 @@ IMAGE_INSTALL_append = " \
     wget \
 "
 
+# kernel tweaking tools
+# - util-linux add taskset to pin down tasks to cores
+# - cpufrequtils is a utility to control Linux DVFS 
+IMAGE_INSTALL_append = " \
+    cpufrequtils \
+    util-linux \
+"
+# for more utilities like this, check https://github.com/Xilinx/meta-petalinux/blob/master/recipes-core/packagegroups/packagegroup-petalinux-utils.bb
+# or perhaps simply add the following line
+# CORE_IMAGE_EXTRA_INSTALL += " packagegroup-petalinux-utils.bb"
+
 # buildessential installs: gcc, make, autoconf, etc
 CORE_IMAGE_EXTRA_INSTALL += " \
     retis-packagegroup-testing \
