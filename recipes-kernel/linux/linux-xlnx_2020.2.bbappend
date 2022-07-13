@@ -8,6 +8,12 @@ file://preempt_rt.cfg \
 file://patch-5.4.3-rt1.patch \
 "
 
+# cpufreq userspace governor is disabled by default
+# this governor enables the user to control dvfs
+# https://www.kernel.org/doc/html/latest/admin-guide/pm/cpufreq.html?highlight=schedutil#userspace
+SRC_URI += "file://cpufreq.cfg \
+"
+
 #KERNEL_FEATURES_append = " rt-frag.cfg"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
