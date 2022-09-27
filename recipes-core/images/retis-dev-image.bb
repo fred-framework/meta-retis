@@ -180,6 +180,8 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 # Most examples with PS and PL communication uses OpenCL and require XRT runtime.
 # The hello world example can be found here:
 # https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/hello_world
+# https://xilinx.github.io/Vitis-Tutorials/2020-2/docs/build/html/docs/Getting_Started/Vitis/Part2.html
+# https://docs.xilinx.com/r/2020.2-English/ug1393-vitis-application-acceleration/Installing-the-Vitis-Software-Platform
 #IMAGE_INSTALL_append = " xrt \
 #	xrt-dev \
 #	zocl \
