@@ -173,3 +173,16 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 # https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/lena.jpg
 
 #IMAGE_INSTALL_append = " opencv-dev"
+
+###########################
+# XRT and OpenCL
+###########################
+# Most examples with PS and PL communication uses OpenCL and require XRT runtime.
+# The hello world example can be found here:
+# https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/hello_world
+#IMAGE_INSTALL_append = " xrt \
+#	xrt-dev \
+#	zocl \
+#	opencl-clhpp-dev \
+#	opencl-headers-dev \
+#"
