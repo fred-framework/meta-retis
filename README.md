@@ -325,6 +325,14 @@ If you want to build a recipe with your own software, please refer to [`learning
 
 Now, the image is ready to be built.
 
+### Reducing the image compilation time
+
+The image compilation time can be acchieved by:
+ - Reusing bitback downloads and sstate-cash, as doing with the symbolic link above;
+ - Removing uncenessary packages.
+
+About the last approach, be aware that the image definitions in `recipes-core/images` include several packages. One can comment out the ones are not required. For instance, packages related to `x11` and `OpenCV`, increase a lot the compilation time and disk usage.
+
 ## Image Building and Packing
 
 In the `<PetaLinux-project>` directory, build the Linux images using the following command:

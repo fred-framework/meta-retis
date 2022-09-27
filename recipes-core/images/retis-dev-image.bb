@@ -158,3 +158,18 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 
 ## check other petalinux packagegroups that can be helpfull in 
 # ./components/yocto/layers/meta-petalinux/recipes-core/images/petalinux-image-full.inc
+
+###########################
+# OpenCV
+###########################
+# openCV is used in alot of Xilinx IP examples, as can be seen in this link
+# https://github.com/Xilinx/Vitis_Libraries.git
+# So, it makes sense to include OpenCV, despite that compilation process will
+# be longer. 
+# Consider the following links to build a test application:
+# https://opencvguide.readthedocs.io/en/latest/opencvcpp/basics.html#sobel-edge-detection
+# https://opencvguide.readthedocs.io/en/latest/opencvpetalinux/basics.html
+# and, of course, the Lena image
+# https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/lena.jpg
+
+#IMAGE_INSTALL_append = " opencv-dev"
