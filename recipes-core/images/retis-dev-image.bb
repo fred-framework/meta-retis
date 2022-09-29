@@ -193,3 +193,5 @@ IMAGE_INSTALL_append = " xrt-dev \
 IMAGE_FEATURES += " \
     petalinux-xrt \
 "
+# tools to program the FPGA in Linux
+IMAGE_INSTALL_append = " fpga-manager-script fpga-manager-util"
