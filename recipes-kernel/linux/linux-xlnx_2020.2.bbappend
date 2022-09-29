@@ -14,6 +14,11 @@ file://patch-5.4.3-rt1.patch \
 SRC_URI += "file://cpufreq.cfg \
 "
 
+# most xilinx embedded examples uses OpenCL in the host side to commucate with the FPGA side.
+# Thus, the zocl driver is requried
+SRC_URI += "file://opencl.cfg \
+"
+
 #KERNEL_FEATURES_append = " rt-frag.cfg"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
