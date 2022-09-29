@@ -184,6 +184,8 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 # https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/hello_world
 # https://xilinx.github.io/Vitis-Tutorials/2020-2/docs/build/html/docs/Getting_Started/Vitis/Part2.html
 # https://docs.xilinx.com/r/2020.2-English/ug1393-vitis-application-acceleration/Installing-the-Vitis-Software-Platform
+# here is more info about compiling XRT w yocto
+# https://github.com/Xilinx/XRT/blob/master/src/runtime_src/doc/toc/yocto.rst
 #IMAGE_INSTALL_append = " xrt \
 #	xrt-dev \
 #	zocl \
