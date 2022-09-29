@@ -186,13 +186,10 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 # https://docs.xilinx.com/r/2020.2-English/ug1393-vitis-application-acceleration/Installing-the-Vitis-Software-Platform
 # here is more info about compiling XRT w yocto
 # https://github.com/Xilinx/XRT/blob/master/src/runtime_src/doc/toc/yocto.rst
-#IMAGE_INSTALL_append = " xrt \
-#	xrt-dev \
-#	zocl \
-#	opencl-clhpp-dev \
-#	opencl-headers-dev \
-#"
-# OR add 
-CORE_IMAGE_EXTRA_INSTALL += " \
-    packagegroup-petalinux-xrt \
+IMAGE_INSTALL_append = " xrt-dev \
+        opencl-clhpp-dev \
+        opencl-headers-dev \
+"
+IMAGE_FEATURES += " \
+    petalinux-xrt \
 "

@@ -1,0 +1,16 @@
+/* place here your device tree segment
+ZOCL is required by XRT and OpenCL to run the Xilinx acceleration examples
+*/
+/include/ "system-conf.dtsi"
+/ {
+    amba {
+        #address-cells = <2>;
+        #size-cells = <2>;
+
+        zyxclmm_drm {
+            compatible = "xlnx,zocl";
+            status = "okay";
+        };
+
+    };
+};
