@@ -171,8 +171,10 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 # https://opencvguide.readthedocs.io/en/latest/opencvpetalinux/basics.html
 # and, of course, the Lena image
 # https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/lena.jpg
-
 #IMAGE_INSTALL_append = " opencv-dev"
+#CORE_IMAGE_EXTRA_INSTALL += " \
+#    packagegroup-petalinux-opencv \
+#"
 
 ###########################
 # XRT and OpenCL
@@ -188,3 +190,7 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 #	opencl-clhpp-dev \
 #	opencl-headers-dev \
 #"
+# OR add 
+CORE_IMAGE_EXTRA_INSTALL += " \
+    packagegroup-petalinux-xrt \
+"
