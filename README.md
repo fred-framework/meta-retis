@@ -456,6 +456,7 @@ main
    - [x] https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/61669922/Customizing+Device+Trees+in+Xilinx+Yocto
    - [x] Check support for device tree fragments;
    [ ] follow the [recipe style guidelines](https://www.openembedded.org/wiki/Styleguide);
+ - [ ] Configure meta-retis to include [xilinx package repository](https://xilinx.github.io/XRT/master/html/yocto.html)
  - [ ] Testing:
    - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
    - [ ] [Testing Continuously Applications Using a Cloud Based Infrastructure Using Virtualization and Real Hardware in the Loop](https://iot.bzh/en/publications/44-2021/121-testing-continuously-applications-using-a-cloud-based-infrastructure-using-virtualization-and-real-hardware-in-the-loop);
