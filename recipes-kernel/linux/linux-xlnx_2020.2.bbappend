@@ -19,6 +19,12 @@ SRC_URI += "file://cpufreq.cfg \
 SRC_URI += "file://opencl.cfg \
 "
 
+#0001 Disable runtime frequency scaling in dl tasks. This is usefull for power analysis
+#0002 Set rt class priority higher than dl. This is usefull to set fred-server w higher priority than sced_deadline tasks
+SRC_URI += "file://0001-Disable-runtime-frequency-scaling-in-dl-tasks.patch \
+file://0002-Set-rt-class-priority-higher-than-dl.patch \
+"
+
 #KERNEL_FEATURES_append = " rt-frag.cfg"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
