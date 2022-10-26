@@ -359,6 +359,16 @@ If the vivado design uses the **PL** part. Note that this last option includes t
 
 The list of installed packages can be found in the `images/linux/rootfs.manifest` file.
 
+## Setup DNF to fetach packages from Xilinx
+
+According to this [link](https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Software-Package-Management-in-PetaLinux-rootfs), this is the procedure to fetch pre-compiled packages from Xilinx package repositories:
+
+```
+wget http://petalinux.xilinx.com/sswreleases/rel-v2020/generic/rpm/repos/zynqmp-generic_eg.repo
+cp zynqmp-generic_eg.repo /etc/yum.repos.d/
+dnf clean all
+```
+
 ## Image Deploy
 
 Copy the `BOOT.BIN`, `image.ub`, and `boot.scr` files to the **boot partition** of the SD card, formated with **FAT32**. Copy the `rootfs.tar.gz` file to the **rootfs partition** of the SD card, formated with **EXT4**. 
