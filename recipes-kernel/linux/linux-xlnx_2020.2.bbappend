@@ -5,6 +5,7 @@ LICENSE = "MIT"
 # remove preempt_rt.cfg and patch-5.4.3-rt1.patch if you dont want to have preempt_rt patch
 SRC_URI += "file://rt-frag.cfg \
 file://preempt_rt.cfg \
+file://ftrace.cfg \
 file://patch-5.4.3-rt1.patch \
 "
 
