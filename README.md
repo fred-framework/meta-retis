@@ -359,7 +359,7 @@ If the vivado design uses the **PL** part. Note that this last option includes t
 
 The list of installed packages can be found in the `images/linux/rootfs.manifest` file.
 
-## Setup DNF to fetach packages from Xilinx
+## Setup DNF to fetch packages from Xilinx
 
 According to this [link](https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Software-Package-Management-in-PetaLinux-rootfs), this is the procedure to fetch pre-compiled packages from Xilinx package repositories:
 
