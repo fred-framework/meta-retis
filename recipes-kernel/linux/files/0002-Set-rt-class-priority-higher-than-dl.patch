@@ -1,0 +1,53 @@
+From 78ea9b3fd476989d21709f894487925f1a2feae1 Mon Sep 17 00:00:00 2001
+From: Gabriele Ara <gabriele.ara@santannapisa.it>
+Date: Tue, 25 Oct 2022 11:01:41 +0000
+Subject: [PATCH 2/2] Set rt class priority higher than dl
+
+---
+ kernel/sched/rt.c        | 2 +-
+ kernel/sched/sched.h     | 2 +-
+ kernel/sched/stop_task.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
+index c11d3d79d4c3..df2042cb83bf 100644
+--- a/kernel/sched/rt.c
++++ b/kernel/sched/rt.c
+@@ -2379,7 +2379,7 @@ static unsigned int get_rr_interval_rt(struct rq *rq, struct task_struct *task)
+ }
+ 
+ const struct sched_class rt_sched_class = {
+-	.next			= &fair_sched_class,
++	.next			= &dl_sched_class,
+ 	.enqueue_task		= enqueue_task_rt,
+ 	.dequeue_task		= dequeue_task_rt,
+ 	.yield_task		= yield_task_rt,
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index b8a3db59e326..fdaae69fd300 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -1798,7 +1798,7 @@ static inline void set_next_task(struct rq *rq, struct task_struct *next)
+ #ifdef CONFIG_SMP
+ #define sched_class_highest (&stop_sched_class)
+ #else
+-#define sched_class_highest (&dl_sched_class)
++#define sched_class_highest (&rt_sched_class)
+ #endif
+ 
+ #define for_class_range(class, _from, _to) \
+diff --git a/kernel/sched/stop_task.c b/kernel/sched/stop_task.c
+index 02dc0a8e3925..a0b412e765c8 100644
+--- a/kernel/sched/stop_task.c
++++ b/kernel/sched/stop_task.c
+@@ -119,7 +119,7 @@ static void update_curr_stop(struct rq *rq)
+  * Simple, special scheduling class for the per-CPU stop tasks:
+  */
+ const struct sched_class stop_sched_class = {
+-	.next			= &dl_sched_class,
++	.next			= &rt_sched_class,
+ 
+ 	.enqueue_task		= enqueue_task_stop,
+ 	.dequeue_task		= dequeue_task_stop,
+-- 
+2.25.1
+

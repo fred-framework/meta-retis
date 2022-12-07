@@ -113,9 +113,11 @@ IMAGE_INSTALL_append = " \
 # kernel tweaking tools
 # - util-linux add taskset to pin down tasks to cores
 # - cpufrequtils is a utility to control Linux DVFS 
+# - trace-cmf is a front-end for ftrace
 IMAGE_INSTALL_append = " \
     cpufrequtils \
     util-linux \
+    trace-cmd \
 "
 # for more utilities like this, check https://github.com/Xilinx/meta-petalinux/blob/master/recipes-core/packagegroups/packagegroup-petalinux-utils.bb
 # or perhaps simply add the following line
