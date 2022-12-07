@@ -2,12 +2,13 @@ DESCRIPTION = "User interface to Ftrace"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=873f48a813bded3de6ebc54e6880c4ac"
 
-#PR = r0
-#PV = "1.0.5+git${SRCPV}"
+PV = "2.9.4+git${SRCPV}"
 
 inherit pkgconfig
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git"
+#SRCREV = "67cc89099e7f3fdd5ae9e3509e506899af65287b"
+SRCREV = "4de183dbf7582e8531790650c3e99354d0413f65"
 S = "${WORKDIR}/git"
 
 EXTRA_OEMAKE = "'prefix=${prefix}'"
