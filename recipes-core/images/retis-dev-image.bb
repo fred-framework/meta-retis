@@ -110,6 +110,17 @@ IMAGE_INSTALL_append = " \
     wget \
 "
 
+# kernel tweaking tools
+# - util-linux add taskset to pin down tasks to cores
+# - cpufrequtils is a utility to control Linux DVFS 
+IMAGE_INSTALL_append = " \
+    cpufrequtils \
+    util-linux \
+"
+# for more utilities like this, check https://github.com/Xilinx/meta-petalinux/blob/master/recipes-core/packagegroups/packagegroup-petalinux-utils.bb
+# or perhaps simply add the following line
+# CORE_IMAGE_EXTRA_INSTALL += " packagegroup-petalinux-utils.bb"
+
 # buildessential installs: gcc, make, autoconf, etc
 CORE_IMAGE_EXTRA_INSTALL += " \
     retis-packagegroup-testing \
@@ -147,3 +158,39 @@ IMAGE_FEATURES_remove += "ssh-server-dropbear"
 
 ## check other petalinux packagegroups that can be helpfull in 
 # ./components/yocto/layers/meta-petalinux/recipes-core/images/petalinux-image-full.inc
+###########################
+# OpenCV
+###########################
+# openCV is used in alot of Xilinx IP examples, as can be seen in this link
+# https://github.com/Xilinx/Vitis_Libraries.git
+# So, it makes sense to include OpenCV, despite that compilation process will
+# be longer. 
+# Consider the following links to build a test application:
+# https://opencvguide.readthedocs.io/en/latest/opencvcpp/basics.html#sobel-edge-detection
+# https://opencvguide.readthedocs.io/en/latest/opencvpetalinux/basics.html
+# and, of course, the Lena image
+# https://raw.githubusercontent.com/opencv/opencv/4.x/samples/data/lena.jpg
+#IMAGE_INSTALL_append = " opencv-dev"
+#CORE_IMAGE_EXTRA_INSTALL += " \
+#    packagegroup-petalinux-opencv \
+#"
+
+###########################
+# XRT and OpenCL
+###########################
+# Most examples with PS and PL communication uses OpenCL and require XRT runtime.
+# The hello world example can be found here:
+# https://github.com/Xilinx/Vitis_Accel_Examples/tree/2020.2/hello_world
+# https://xilinx.github.io/Vitis-Tutorials/2020-2/docs/build/html/docs/Getting_Started/Vitis/Part2.html
+# https://docs.xilinx.com/r/2020.2-English/ug1393-vitis-application-acceleration/Installing-the-Vitis-Software-Platform
+# here is more info about compiling XRT w yocto
+# https://github.com/Xilinx/XRT/blob/master/src/runtime_src/doc/toc/yocto.rst
+#IMAGE_INSTALL_append = " xrt-dev \
+#        opencl-clhpp-dev \
+#        opencl-headers-dev \
+#"
+#IMAGE_FEATURES += " \
+#    petalinux-xrt \
+#"
+# tools to program the FPGA in Linux
+IMAGE_INSTALL_append = " fpga-manager-script fpga-manager-util"

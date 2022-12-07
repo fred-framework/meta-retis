@@ -325,6 +325,13 @@ If you want to build a recipe with your own software, please refer to [`learning
 
 Now, the image is ready to be built.
 
+### Reducing the image compilation time
+
+The image compilation time can be acchieved by:
+ - Reusing bitback downloads and sstate-cash, as doing with the symbolic link above;
+ - Removing uncenessary packages.
+
+About the last approach, be aware that the image definitions in `recipes-core/images` include several packages. One can comment out the ones are not required. For instance, packages related to `x11` and `OpenCV`, increase a lot the compilation time and disk usage.
 ## Image Building and Packing
 
 In the `<PetaLinux-project>` directory, build the Linux images using the following command:
@@ -350,6 +357,16 @@ $ petalinux-package --boot --force --fsbl zynqmp_fsbl.elf --fpga system.bit --pm
 If the vivado design uses the **PL** part. Note that this last option includes the .bit into the `BOOT.BIN`. 
 
 The list of installed packages can be found in the `images/linux/rootfs.manifest` file.
+
+## Setup DNF to fetch packages from Xilinx
+
+According to this [link](https://docs.xilinx.com/r/2021.1-English/ug1393-vitis-application-acceleration/Software-Package-Management-in-PetaLinux-rootfs), this is the procedure to fetch pre-compiled packages from Xilinx package repositories:
+
+```
+wget http://petalinux.xilinx.com/sswreleases/rel-v2020/generic/rpm/repos/zynqmp-generic_eg.repo
+cp zynqmp-generic_eg.repo /etc/yum.repos.d/
+dnf clean all
+```
 
 ## Image Deploy
 
@@ -448,6 +465,7 @@ main
    - [x] https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/61669922/Customizing+Device+Trees+in+Xilinx+Yocto
    - [x] Check support for device tree fragments;
    [ ] follow the [recipe style guidelines](https://www.openembedded.org/wiki/Styleguide);
+ - [ ] Configure meta-retis to include [xilinx package repository](https://xilinx.github.io/XRT/master/html/yocto.html)
  - [ ] Testing:
    - [ ] Implement [testing](https://docs.yoctoproject.org/test-manual/intro.html#) and integrate with a [buildbot CI framework](https://git.yoctoproject.org/yocto-autobuilder2/tree/README.md); 
    - [ ] [Testing Continuously Applications Using a Cloud Based Infrastructure Using Virtualization and Real Hardware in the Loop](https://iot.bzh/en/publications/44-2021/121-testing-continuously-applications-using-a-cloud-based-infrastructure-using-virtualization-and-real-hardware-in-the-loop);
