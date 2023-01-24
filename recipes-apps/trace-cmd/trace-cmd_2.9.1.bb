@@ -1,5 +1,5 @@
 SUMMARY = "User-space front-end command-line tool for ftrace"
-% taken from https://layers.openembedded.org/layerindex/recipe/169377/
+# taken from https://layers.openembedded.org/layerindex/recipe/169377/
 
 LICENSE = "GPLv2 & LGPLv2.1"
 LIC_FILES_CHKSUM = "file://COPYING;md5=873f48a813bded3de6ebc54e6880c4ac"
