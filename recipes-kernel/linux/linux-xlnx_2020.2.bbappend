@@ -26,7 +26,12 @@ SRC_URI += "file://0001-Disable-runtime-frequency-scaling-in-dl-tasks.patch \
 file://0002-Set-rt-class-priority-higher-than-dl.patch \
 "
 
-#KERNEL_FEATURES_append = " rt-frag.cfg"
+# this is used to apply kernel features in the recipe. When you add features using this method, the OpenEmbedded build system checks to be sure the features are present. 
+# more about KERNEL_FEATURES:
+# https://docs.yoctoproject.org/2.5/kernel-dev/kernel-dev.html#adding-recipe-space-kernel-features
+# https://docs.yoctoproject.org/2.5/ref-manual/ref-manual.html#var-KERNEL_FEATURES
+# Always check if the kernel features were correctly applied in build/tmp/work/zynqmp_generic-xilinx-linux/linux-xlnx/5.4+xxxxx-r0/linux-xxx/.config
+KERNEL_FEATURES_append = " rt-frag.cfg"
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 # it is also possible to apply an complete config with this code
